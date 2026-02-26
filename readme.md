@@ -1,76 +1,94 @@
-UW Course Monitor & Auto-Registrar
-A robust automation suite designed to monitor course availability on UW MyPlan and perform high-speed registration via the UW Registration API. This tool includes integrated Duo 2FA automation using Google Voice to ensure a fully hands-free experience.
-
-Core Features
-API-Based Registration: Instead of slow UI clicking, the script extracts CSRF tokens and session checksums to send direct POST requests to the UW registration endpoint for near-instant enrollment.
-
-Automatic Duo Authentication: Utilizes a specialized monitor to detect incoming Duo phone calls on Google Voice, automatically answering and pressing "1" to authorize the login.
-
-Session Maintenance: A dedicated background thread periodically refreshes the session and monitors health to prevent timeout during long monitoring periods.
-
-Intelligent Logic:
-
-Handles single lectures or lecture + quiz/lab combinations.
-
-Parses registration responses to identify successes, time conflicts, or "already enrolled" statuses.
-
-Headless Support: Can run in the background (Headless mode) to save system resources.
-
-🛠️ Setup & Configuration
-1. Requirements
-Python 3.x
-
-Selenium & fake-useragent
-
-ChromeDriver (matching your Chrome version)
 
 
+### **UW Course Registration Automator**
+A Python-based automation suite designed to monitor and register for University of Washington courses in real-time. It handles Duo 2FA automatically via Google Voice and uses a hybrid approach of Selenium and direct API injection for high-speed registration.
 
-2. Credentials (config.txt)
-Create a config.txt in the root directory with the following format:
+🛠️ Prerequisites & Installation
+1. System Requirements
+Python 3.x: Ensure Python is installed and added to your PATH.
 
-Plaintext
-account:YOUR_NETID
-password:YOUR_PASSWORD
-quarter:20262  # e.g., 2026 Spring
-number:1234   # Last 4 digits of your Duo-linked Google Voice number
+Chrome Browser: Installed at the default location.
 
-3. Course List (courses.json)
-Define the courses you want to track. The lec and quizzes values correspond to the tbody IDs on the MyPlan page:
 
-JSON
+ChromeDriver: Must match your Chrome version and be placed in the path specified in your scripts. 
+
+2. Required Python Packages
+Run the following command to install necessary dependencies:
+
+```Bash
+pip install selenium fake-useragent
+```
+selenium: For browser automation and session handling. 
+
+
+fake-useragent: To rotate User-Agent headers and avoid bot detection. 
+
+
+json, threading, time, re: These are part of the Python standard library used throughout the project. 
+
+### **Project Structure**
+
+**login_manager.py**: Manages Selenium drivers, UW login, and executes registration API calls via JS injection. 
+
+**Monitor_DUOAUTH.py**: A specialized script that controls a browser instance to answer Google Voice calls and press '1' for Duo approval.
+
+**Monitor_space.py**: The main entry point that monitors MyPlan course availability and triggers the registration logic.
+
+**load_cred.py**: Utility to parse credentials from config.txt and course configurations from courses.json.
+
+**config.txt**: Stores your NetID, password, target quarter, and Duo phone number.
+
+**courses.json**: Defines which courses and specific section blocks (SLNs) to monitor.
+
+⚙️ Configuration
+1. Credentials (config.txt)
+Update this file with your UW and Duo details:
+
+
+```
+
+account:your_netid
+password:your_password
+quarter:20262
+number:1234
+```
+2. Courses (courses.json)
+List the courses you want to watch. The lec and quizzes keys refer to the HTML tbody IDs on the MyPlan page:
+```
 {
-    "PSYCH311": {
-        "url": "https://myplan.uw.edu/course/#/courses/CSE311",
+    "PSYCH210": {
+        "url": "https://myplan.uw.edu/course/#/courses/PSYCH210",
         "blocks": [
-            { "lec": "spring-b", "quizzes": ["spring-aa", "spring-ab","spring-ac"] }
+            { "lec": "spring-b", "quizzes": [] }
         ]
     }
 }
+```
+3. Path Setup
+In Monitor_space.py and Monitor_DUOAUTH.py, update these variables to match your local system:
 
-Usage
-Set Paths: Open Monitor_space.py and update the CHROME_DRIVER_PATH and DEBUG_PROFILE_DIR to match your local environment.
+**CHROME_DRIVER_PATH**: Full path to your chromedriver.exe.
 
-Run the Monitor:
+**DEBUG_PROFILE_DIR / TEMP_USER_DATA**: Local folders for Chrome to store session data, **AND THEY HAVE TO BE DIFFERENT, ONE FOR DUO MONITOR AND ONE FOR SCANNING COURSES!!!!!!!**
+
+### **Usage**
+To start the monitoring and registration process, run:
 
 Bash
+```
 python Monitor_space.py
-Workflow:
+```
+How it works:
 
-The script initializes a session and handles Duo via the Google Voice helper.
+**Initial Login**: ****login_manager.py**** starts a browser to log into the UW registration portal. 
 
-It begins cycling through the URLs provided in courses.json.
 
-Once a section status changes to "Open," it immediately triggers the register_sections API call.
+**2FA**: ****Monitor_DUOAUTH.py**** runs a background thread to automatically answer the Duo phone call via Google Voice. 
 
-File Structure
-Monitor_space.py: The main execution script that manages the monitoring loop and registration logic.
+**Monitoring**: ****Monitor_space.py**** scrapes MyPlan every few seconds to check for "Open" status.
 
-login_manager.py: Handles WebDriver initialization, UW NetID login, and API request construction.
 
-Monitor_DUOAUTH.py: A specialized script that automates the Google Voice interface to bypass Duo 2FA.
+**Fast Registration**: When a spot opens, the script extracts session tokens to perform a direct API request for maximum speed. 
 
-load_cred.py: Utility to parse configuration files.
-
-Disclaimer
-This tool is for educational purposes only. Automated registration may violate university policy. Use responsibly and at your own risk.
+### **Disclaimer**
+This tool is for educational purposes. Automated registration may be against University of Washington policy. Use at your own risk.
