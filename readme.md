@@ -71,6 +71,8 @@ In Monitor_space.py and Monitor_DUOAUTH.py, update these variables to match your
 
 **DEBUG_PROFILE_DIR / TEMP_USER_DATA**: Local folders for Chrome to store session data, **AND THEY HAVE TO BE DIFFERENT, ONE FOR DUO MONITOR AND ONE FOR SCANNING COURSES!!!!!!!**
 
+**HEADLESS_MODE** = True/False - GUI or NO_GUI for course scanning
+
 ### **Usage**
 To start the monitoring and registration process, run:
 
