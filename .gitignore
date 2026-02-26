@@ -1,3 +1,11 @@
+<<<<<<< HEAD
+=======
+config.txt
+monitor_log.log
+
+
+
+>>>>>>> 89cdf445e0e817a7447c85fafdd939496f319da2
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
