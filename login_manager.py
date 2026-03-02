@@ -188,9 +188,7 @@ class UWSessionManager:
 
         try:
             res = driver.execute_async_script(f"const run = async () => {{ {fetch_script} }}; run().then(arguments[0]);")
-            if res['status'] != 200:
-                self.maintain_session() # relogin triggered
-                self.register_sections(self, sln_list)
+            self.driver.refresh()
             return res
         except Exception as e:
             return {"status": "exception", "message": str(e)}

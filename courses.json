@@ -3,7 +3,7 @@
     "PSYCH210": {
         "url": "https://myplan.uw.edu/course/#/courses/PSYCH210",
         "blocks": [
-            { "lec": "spring-b", "quizzes": [] }
+            { "lec": "spring-a", "quizzes": [] }
         ]
     }
 }

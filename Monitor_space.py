@@ -249,3 +249,10 @@ if __name__ == "__main__":
     monitor_thread = threading.Thread(target=threadwrapper, daemon=True)
     monitor_thread.start()
  
+'''
+# %%
+response = uw_api.register_sections([18975])
+status, detail = process_uw_response(response)
+print(status,detail)
+
+'''
