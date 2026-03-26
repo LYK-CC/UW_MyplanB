@@ -25,7 +25,10 @@ password = config.get("password")
 quarter = config.get("quarter")
 number = config.get("number")
 
-COURSES_TO_MONITOR = load_courses_config()
+def reload_course_monitor_list():
+    global COURSES_TO_MONITOR
+    COURSES_TO_MONITOR = load_courses_config()
+reload_course_monitor_list()
 
 CHROME_DRIVER_PATH = r"C:\Users\ryanm\OneDrive - UW\Desktop\chromedriver.exe"
 CHROME_PATH = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
