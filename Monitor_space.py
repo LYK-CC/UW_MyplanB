@@ -25,7 +25,10 @@ password = config.get("password")
 quarter = config.get("quarter")
 number = config.get("number")
 
-COURSES_TO_MONITOR = load_courses_config()
+def reload_course_monitor_list():
+    global COURSES_TO_MONITOR
+    COURSES_TO_MONITOR = load_courses_config()
+reload_course_monitor_list()
 
 CHROME_DRIVER_PATH = r"C:\Users\ryanm\OneDrive - UW\Desktop\chromedriver.exe"
 CHROME_PATH = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
@@ -249,3 +252,10 @@ if __name__ == "__main__":
     monitor_thread = threading.Thread(target=threadwrapper, daemon=True)
     monitor_thread.start()
  
+'''
+# %%
+response = uw_api.register_sections([18975])
+status, detail = process_uw_response(response)
+print(status,detail)
+
+'''

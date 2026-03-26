@@ -73,13 +73,13 @@ class UWSessionManager:
             wait.until(EC.presence_of_element_located((By.ID, "weblogin_netid"))).send_keys(self.netid)
             driver.find_element(By.ID, "weblogin_password").send_keys(self.password)
             driver.find_element(By.NAME, "_eventId_proceed").click()
-
-
-            other_opt = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Other options')]")))
-            other_opt.click()
+            
+            wait.until(EC.element_to_be_clickable((By.XPATH, "//*[contains(text(), 'Other options')]"))).click()
+            
             
             target_phone_xpath = f"//a[.//span[contains(text(), '{self.DUO_PHONE_NUMBER}')] and .//div[contains(text(), 'Phone call')]]"
             target_element = wait.until(EC.element_to_be_clickable((By.XPATH, target_phone_xpath)))
+            time.sleep(1)
             driver.execute_script("arguments[0].click();", target_element)
             
 
@@ -188,9 +188,7 @@ class UWSessionManager:
 
         try:
             res = driver.execute_async_script(f"const run = async () => {{ {fetch_script} }}; run().then(arguments[0]);")
-            if res['status'] != 200:
-                self.maintain_session() # relogin triggered
-                self.register_sections(self, sln_list)
+            self.driver.refresh()
             return res
         except Exception as e:
             return {"status": "exception", "message": str(e)}

@@ -1,9 +1,29 @@
 {
-
-    "PSYCH210": {
-        "url": "https://myplan.uw.edu/course/#/courses/PSYCH210",
+    "CSE331": {
+        "url": "https://myplan.uw.edu/course/#/courses/CSE331",
         "blocks": [
+            { "lec": "spring-a", "quizzes": ["spring-aa", "spring-ab", "spring-ac", "spring-ad", "spring-ae", "spring-af"] }
+        ]
+    },
+    "CSE421": {
+        "url": "https://myplan.uw.edu/course/#/courses/CSE421",
+        "blocks": [
+            { "lec": "spring-a", "quizzes": ["spring-aa", "spring-ab", "spring-ac", "spring-ad", "spring-ae", "spring-af"] }
+        ]
+    },
+    "CSE493": {
+        "url": "https://myplan.uw.edu/course/#/courses/CSE493",
+        "blocks": [
+            { "lec": "spring-s", "quizzes": [] },
+            { "lec": "spring-g", "quizzes": ["spring-ga", "spring-gb", "spring-gc"] }
+        ]
+    },
+    "STAT311": {
+        "url": "https://myplan.uw.edu/course/#/courses/stat311",
+        "blocks": [
+            { "lec": "spring-a", "quizzes": ["spring-aa", "spring-ab", "spring-ac", "spring-ad", "spring-ae", "spring-af"] },
             { "lec": "spring-b", "quizzes": [] }
         ]
     }
+
 }
